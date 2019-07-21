@@ -7,6 +7,8 @@ from apps.scraper.logic import scrap_process
 
 
 class Scraping(APIView):
+    # it doesn't ask for permission for now so we can quickly try it
+    # http://0.0.0.0:8000/api/scraping
     queryset = models.Category.objects.none()  # Required for DjangoModelPermissions
 
     def get(self, request):
