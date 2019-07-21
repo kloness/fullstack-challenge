@@ -22,4 +22,4 @@ def scrap_categories():
     # save categories in database
     for side_category in side_categories:
         category_name = side_category.get_text().strip()
-        models.Category.objects.create(name=category_name)
+        models.Category.objects.get_or_create(name=category_name)

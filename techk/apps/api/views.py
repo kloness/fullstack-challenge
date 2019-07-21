@@ -5,7 +5,7 @@ from timeit import default_timer as timer
 
 from apps.base import models
 from apps.base.models import reset_db
-from apps.scraper.views import scrap_categories
+from apps.scraper.logic import scrap_categories
 
 
 class Scraping(APIView):
