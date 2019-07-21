@@ -24,3 +24,6 @@ class Book(models.Model):
     stock = models.BooleanField()
     product_description = models.TextField()
     upc = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title
