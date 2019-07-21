@@ -1,6 +1,11 @@
 from django.db import models
 
 
+def reset_db():
+    Category.objects.all().delete()
+    Book.objects.all().delete()
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
