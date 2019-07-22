@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from apps.base import models
-from apps.scraper.logic import scrap_process
+from apps.scraper.logic import scrape_process
 
 
 class Scraping(APIView):
@@ -13,5 +13,5 @@ class Scraping(APIView):
 
     def get(self, request):
         print('Scraping')
-        scrap_process()
+        scrape_process()
         return Response(status=status.HTTP_200_OK)

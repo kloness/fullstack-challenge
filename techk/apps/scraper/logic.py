@@ -20,17 +20,17 @@ def get_page(url):
     return BeautifulSoup(req.text, 'html.parser')
 
 
-def scrap_process():
+def scrape_process():
     """
     Benchmark without parallel processing:
-    scrap categories: 0.060 seconds
-    scrap 1000 books: 579.192 seconds
+    scrape categories: 0.060 seconds
+    scrape 1000 books: 579.192 seconds
     total: 579.252 seconds
 
     Benchmark with parallel processing (50 processes for pages and 100 for books):
-    scrap categories: 0.381 seconds
-    scrap 50 book list pages: 1.558 seconds
-    scrap 1000 books: 11.844 seconds
+    scrape categories: 0.381 seconds
+    scrape 50 book list pages: 1.558 seconds
+    scrape 1000 books: 11.844 seconds
     save 1000 books on database: 9.726 seconds
     total: 23.509 seconds
     """
@@ -40,22 +40,22 @@ def scrap_process():
     # get home page object
     page = get_page(BASE_URL)
 
-    # scrap categories
+    # scrape categories
     start = timer()
-    scrap_categories(page)
+    scrape_categories(page)
     end = timer()
-    print(f'scrap categories: {end - start} seconds')
+    print(f'scrape categories: {end - start} seconds')
 
     # get number of pages
-    number_of_pages = scrap_total_pages(page)
+    number_of_pages = scrape_total_pages(page)
 
-    # scrap each page to get a list of product data (url and thumbnail)
+    # scrape each page to get a list of product data (url and thumbnail)
     start = timer()
     page_indices = [i for i in range(1, number_of_pages + 1)]  # eg: [1, 2, ..., 50]
     book_data_list = []
     with Pool(50) as process:
-        # scrap each page in parallel (page 1, 2, ..., 50)
-        product_batches = process.map(scrap_product_list_page, page_indices)
+        # scrape each page in parallel (page 1, 2, ..., 50)
+        product_batches = process.map(scrape_product_list_page, page_indices)
         # product_batches = [
         #     [
         #         [books from page 1],
@@ -73,14 +73,14 @@ def scrap_process():
         #     ... (1000 books)
         # ]
     end = timer()
-    print(f'scrap pages: {end - start} seconds')
+    print(f'scrape pages: {end - start} seconds')
 
-    # scrap each book page in parallel
+    # scrape each book page in parallel
     start = timer()
     with Pool(100) as process:
-        final_book_data = process.map(scrap_book, book_data_list)
+        final_book_data = process.map(scrape_book, book_data_list)
     end = timer()
-    print(f'scrap books: {end - start} seconds')
+    print(f'scrape books: {end - start} seconds')
 
     # save books on database
     start = timer()
@@ -89,7 +89,7 @@ def scrap_process():
     print(f'save books on database: {end - start} seconds')
 
 
-def scrap_categories(page):
+def scrape_categories(page):
     # get categories from the sidebar
     side_categories = page.select('.side_categories ul li ul li a')
     # save categories in database
@@ -98,14 +98,14 @@ def scrap_categories(page):
         models.Category.objects.get_or_create(name=category_name)
 
 
-def scrap_total_pages(page):
+def scrape_total_pages(page):
     pager_text = page.select_one('.pager .current').get_text(strip=True)  # "Page 1 of 50"
     number_of_pages = pager_text.split(" ")[-1]  # "50"
     number_of_pages = int(number_of_pages)  # 50
     return number_of_pages
 
 
-def scrap_product_list_page(page_number):
+def scrape_product_list_page(page_number):
     """
     It gets a page with a list of products. For each product it saves a dict with product url and thumbnail.
     return example:
@@ -137,9 +137,9 @@ def scrap_product_list_page(page_number):
     return book_data_list
 
 
-def scrap_book(book_dict):
+def scrape_book(book_dict):
     """
-    It scraps the information of a book page and saves it on the database.
+    It scrapes the information of a book page and saves it on the database.
     book_dict: A dictionary with product_url and thumbnail_url
     example of book_dict:
     {
