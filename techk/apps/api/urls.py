@@ -6,4 +6,5 @@ app_name = 'api'
 
 urlpatterns = [
     path('scraping', views.Scraping.as_view()),
+    path('categories', views.Categories.as_view()),
 ]

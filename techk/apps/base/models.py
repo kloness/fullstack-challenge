@@ -17,7 +17,7 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='books')
     title = models.CharField(max_length=100)
     thumbnail_url = models.URLField()
     price = models.CharField(max_length=20)
