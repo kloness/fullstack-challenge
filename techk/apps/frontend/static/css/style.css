@@ -3,6 +3,8 @@
   border: 2px solid lightgrey;
   border-radius: 10px;
   display: table;
+  padding: .75rem;
+  width: 100%;
 }
 
 .table td, .table th {

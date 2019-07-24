@@ -35,7 +35,7 @@ const Books = () => {
 
   return (
     <div className="column">
-      <table className="table is-vertical is-bordered is-striped">
+      <table className="table is-bordered is-striped">
         <thead>
         <tr>
           <th>Thumbnail</th>

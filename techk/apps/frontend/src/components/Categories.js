@@ -20,11 +20,13 @@ const Categories = () => {
   }
 
   return (
-    <div className="category-column column is-3">
-      <h1 className="subtitle">Categories</h1>
-      <ul>
-        {categories.map(categoryUI)}
-      </ul>
+    <div className="column is-3-desktop">
+      <div className="category-column">
+        <h1 className="subtitle">Categories</h1>
+        <ul>
+          {categories.map(categoryUI)}
+        </ul>
+      </div>
     </div>
   )
 };
