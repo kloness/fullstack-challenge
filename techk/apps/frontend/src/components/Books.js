@@ -25,9 +25,7 @@ const Books = () => {
         <td>{stock ? 'Yes' : 'No'}</td>
         <td>{upc}</td>
         <td>
-          <textarea className="textarea" readOnly cols="100" rows="3">
-            {product_description}
-          </textarea>
+          <textarea className="textarea" readOnly cols="100" rows="3" value={product_description} />
         </td>
       </tr>
     );

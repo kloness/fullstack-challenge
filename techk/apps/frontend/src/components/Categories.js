@@ -16,16 +16,22 @@ const Categories = () => {
   }, []);
 
   function categoryUI(category) {
-    return (<li key={category.id}>{category.name}</li>);
+    return (
+      <tr key={category.id}>
+        <td>{category.name}</td>
+      </tr>
+    );
   }
 
   return (
     <div className="column is-3-desktop">
       <div className="category-column">
-        <h1 className="subtitle">Categories</h1>
-        <ul>
+        <h1 className="subtitle has-text-centered pt-10">Categories</h1>
+        <table className="table is-fullwidth is-narrow">
+          <tbody>
           {categories.map(categoryUI)}
-        </ul>
+          </tbody>
+        </table>
       </div>
     </div>
   )
