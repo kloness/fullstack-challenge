@@ -1,25 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 
 const Categories = () => {
-  async function fetchData() {
-    console.log('fetchData');
+  const [categories, setCategories] = useState([]);
+
+  async function fetchCategories() {
     const res = await fetch("/api/categories");
-    console.log('res:');
-    console.log(res);
     res.json()
-      .then(res => console.log(res))
+      .then(res => setCategories(res))
       .catch(err => console.error(err));
   }
 
   useEffect(() => {
-    console.log('userEffect');
-    fetchData();
-  });
+    fetchCategories();
+  }, []);
+
+  function categoryItemUI(category) {
+    return (<li key={category.id}>{category.name}</li>);
+  }
 
   return (
-    <div>
+    <div className="category-column column is-3">
       <h1 className="subtitle">Categorías</h1>
+      <ul>
+        {categories.map(categoryItemUI)}
+      </ul>
     </div>
   )
 };
