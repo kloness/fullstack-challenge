@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.base',
     'apps.scraper',
     'apps.api',
+    'apps.frontend',
 ]
 
 MIDDLEWARE = [

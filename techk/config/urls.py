@@ -6,7 +6,7 @@ from apps.base.views import index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('apps.api.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('', index),
+    path('api/', include('apps.api.urls')),
+    path('', include('apps.frontend.urls')),
 ]
