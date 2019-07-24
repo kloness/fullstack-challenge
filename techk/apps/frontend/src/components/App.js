@@ -6,7 +6,7 @@ import Books from "./Books";
 const App = () => (
   <div className="section">
     <div className="container">
-      <div className="columns">
+      <div className="columns is-desktop">
         <Categories />
         <Books />
       </div>

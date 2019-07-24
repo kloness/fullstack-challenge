@@ -15,7 +15,7 @@ const Categories = () => {
     fetchCategories();
   }, []);
 
-  function categoryItemUI(category) {
+  function categoryUI(category) {
     return (<li key={category.id}>{category.name}</li>);
   }
 
@@ -23,7 +23,7 @@ const Categories = () => {
     <div className="category-column column is-3">
       <h1 className="subtitle">Categories</h1>
       <ul>
-        {categories.map(categoryItemUI)}
+        {categories.map(categoryUI)}
       </ul>
     </div>
   )
