@@ -21,7 +21,7 @@ const Categories = () => {
 
   return (
     <div className="category-column column is-3">
-      <h1 className="subtitle">Categorías</h1>
+      <h1 className="subtitle">Categories</h1>
       <ul>
         {categories.map(categoryItemUI)}
       </ul>

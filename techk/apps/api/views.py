@@ -25,3 +25,12 @@ class Categories(APIView):
         categories = models.Category.objects.all()
         serializer = serializers.Category(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class Books(APIView):
+    queryset = models.Book.objects.all()
+
+    def get(self, request):
+        categories = models.Book.objects.all()[:10]
+        serializer = serializers.Book(categories, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
