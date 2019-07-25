@@ -22,15 +22,27 @@ const App = () => {
       .catch(err => console.error(err));
   }
 
-  useEffect(() => {
+  function resetData() {
+    setCategories([]);
+    setBooks([]);
+  }
+
+  function fetchAllData() {
     fetchCategories();
     fetchBooks();
+  }
+
+  useEffect(() => {
+    fetchAllData();
   }, []);
 
   return (
     <div className="section">
       <div className="container">
-        <ScrapingButton />
+        <ScrapingButton
+          beforeScraping={resetData}
+          afterScraping={fetchAllData}
+        />
         <div className="columns is-desktop">
           <Categories categories={categories} />
           <Books books={books} />
