@@ -1,3 +1,4 @@
+from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
@@ -15,22 +16,18 @@ class Scraping(APIView):
     def get(self, request):
         print('Scraping')
         scrape_process()
-        return Response(status=status.HTTP_200_OK)
+        return Response({'status': 'ok'}, status=status.HTTP_200_OK)
 
 
-class Categories(APIView):
-    queryset = models.Category.objects.all()
+class Categories(ListAPIView):
+    serializer_class = serializers.Category
 
-    def get(self, request):
-        categories = models.Category.objects.all()
-        serializer = serializers.Category(categories, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return models.Category.objects.all()
 
 
-class Books(APIView):
-    queryset = models.Book.objects.all()
+class Books(ListAPIView):
+    serializer_class = serializers.Book
 
-    def get(self, request):
-        categories = models.Book.objects.all()[:10]
-        serializer = serializers.Book(categories, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return models.Book.objects.all()[:10]
