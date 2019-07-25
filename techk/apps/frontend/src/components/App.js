@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Categories from "./Categories";
 import Books from "./Books";
 import ScrapingButton from "./ScrapingButton";
+import axios from 'axios';
 
 
 const App = () => {
@@ -9,16 +10,16 @@ const App = () => {
   const [books, setBooks] = useState([]);
 
   async function fetchCategories() {
-    const res = await fetch("/api/categories");
-    res.json()
-      .then(res => setCategories(res))
+    axios.get('/api/categories')
+      .then(res => setCategories(res.data))
       .catch(err => console.error(err));
   }
 
-  async function fetchBooks() {
-    const res = await fetch("/api/books");
-    res.json()
-      .then(res => setBooks(res))
+  async function fetchBooks(categoryId=null) {
+    console.log('categoryId:');
+    console.log(categoryId);
+    axios.get('/api/books')
+      .then(res => setBooks(res.data))
       .catch(err => console.error(err));
   }
 

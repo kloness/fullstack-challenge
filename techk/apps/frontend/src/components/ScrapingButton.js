@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import axios from 'axios';
 
 
 const ScrapingButton = ({ beforeScraping, afterScraping }) => {
@@ -8,9 +9,8 @@ const ScrapingButton = ({ beforeScraping, afterScraping }) => {
   async function scrape() {
     setLoading(true);
     beforeScraping();
-    const res = await fetch("/api/scraping");
-    res.json()
-      .then(res => console.log(res))
+    await axios.get('/api/scraping')
+      .then(res => console.log(res.data))
       .catch(err => console.error(err));
     setLoading(false);
     afterScraping();
