@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 
-const Categories = () => {
-  const [categories, setCategories] = useState([]);
-
-  async function fetchCategories() {
-    const res = await fetch("/api/categories");
-    res.json()
-      .then(res => setCategories(res))
-      .catch(err => console.error(err));
-  }
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+const Categories = (categories) => {
 
   function categoryUI(category) {
     return (
@@ -38,6 +27,19 @@ const Categories = () => {
       </div>
     </div>
   )
+};
+
+Categories.propTypes = {
+  caterogies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  )
+};
+
+Categories.defaultProps = {
+  categories: []
 };
 
 export default Categories;
