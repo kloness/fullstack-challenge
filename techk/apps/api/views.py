@@ -30,4 +30,8 @@ class Books(ListAPIView):
     serializer_class = serializers.Book
 
     def get_queryset(self):
-        return models.Book.objects.all()[:10]
+        queryset = models.Book.objects.all()
+        category_id = self.request.query_params.get('category_id', None)
+        if category_id is not None:
+            queryset = queryset.filter(category=category_id)
+        return queryset[:10]

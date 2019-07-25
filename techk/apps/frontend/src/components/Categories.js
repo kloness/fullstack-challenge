@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 
-const Categories = ({ categories }) => {
+const Categories = ({ categories, onCategoryChange }) => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  function categoryClick(categoryId) {
+    setSelectedCategoryId(categoryId);
+    onCategoryChange(categoryId);
+  }
+
+  function resetSelectedCategoryId() {
+    // using this function in render instead of an inline function prevents unnecesary renders
+    categoryClick(null);
+  }
 
   function categoryUI(category) {
+    const isSelectedClass = (category.id === selectedCategoryId) ? 'is-selected' : '';
     return (
-      <tr key={category.id}>
-        <td>{category.name}</td>
+      <tr key={category.id} className={isSelectedClass}>
+        <td onClick={() => categoryClick(category.id)}>{category.name}</td>
       </tr>
     );
   }
@@ -16,10 +28,10 @@ const Categories = ({ categories }) => {
     <div className="column is-3-desktop">
       <div className="category-column">
         <h1 className="subtitle has-text-centered pt-10">Categories</h1>
-        <table className="table is-fullwidth is-narrow">
+        <table className="table is-fullwidth is-narrow is-hoverable">
           <tbody>
-          <tr className="is-selected">
-            <td>All</td>
+          <tr className={selectedCategoryId === null ? "is-selected" : ""}>
+            <td onClick={resetSelectedCategoryId}>All</td>
           </tr>
           {categories.map(categoryUI)}
           </tbody>
@@ -35,11 +47,8 @@ Categories.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
     }).isRequired
-  )
-};
-
-Categories.defaultProps = {
-  categories: []
+  ),
+  onCategoryChange: PropTypes.func.isRequired
 };
 
 export default Categories;

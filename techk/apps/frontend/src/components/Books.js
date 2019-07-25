@@ -56,8 +56,4 @@ Books.propTypes = {
   )
 };
 
-Books.defaultProps = {
-  books: []
-};
-
 export default Books;

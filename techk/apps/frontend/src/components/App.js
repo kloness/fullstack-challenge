@@ -18,7 +18,11 @@ const App = () => {
   async function fetchBooks(categoryId=null) {
     console.log('categoryId:');
     console.log(categoryId);
-    axios.get('/api/books')
+    axios.get('/api/books', {
+      params: {
+        category_id: categoryId
+      }
+    })
       .then(res => setBooks(res.data))
       .catch(err => console.error(err));
   }
@@ -37,6 +41,10 @@ const App = () => {
     fetchAllData();
   }, []);
 
+  function onCategoryChange(categoryId) {
+    fetchBooks(categoryId);
+  }
+
   return (
     <div className="section">
       <div className="container">
@@ -45,7 +53,7 @@ const App = () => {
           afterScraping={fetchAllData}
         />
         <div className="columns is-desktop">
-          <Categories categories={categories} />
+          <Categories categories={categories} onCategoryChange={onCategoryChange} />
           <Books books={books} />
         </div>
       </div>
