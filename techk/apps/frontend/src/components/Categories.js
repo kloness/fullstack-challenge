@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 
-const Categories = (categories) => {
+const Categories = ({ categories }) => {
 
   function categoryUI(category) {
     return (
@@ -30,11 +30,11 @@ const Categories = (categories) => {
 };
 
 Categories.propTypes = {
-  caterogies: PropTypes.arrayOf(
+  categories: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
-    })
+    }).isRequired
   )
 };
 

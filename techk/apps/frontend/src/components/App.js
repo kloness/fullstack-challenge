@@ -6,6 +6,7 @@ import ScrapingButton from "./ScrapingButton";
 
 const App = () => {
   const [categories, setCategories] = useState([]);
+  const [books, setBooks] = useState([]);
 
   async function fetchCategories() {
     const res = await fetch("/api/categories");
@@ -14,8 +15,16 @@ const App = () => {
       .catch(err => console.error(err));
   }
 
+  async function fetchBooks() {
+    const res = await fetch("/api/books");
+    res.json()
+      .then(res => setBooks(res))
+      .catch(err => console.error(err));
+  }
+
   useEffect(() => {
     fetchCategories();
+    fetchBooks();
   }, []);
 
   return (
@@ -24,7 +33,7 @@ const App = () => {
         <ScrapingButton />
         <div className="columns is-desktop">
           <Categories categories={categories} />
-          <Books />
+          <Books books={books} />
         </div>
       </div>
     </div>

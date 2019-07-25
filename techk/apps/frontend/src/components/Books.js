@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 
-const Books = () => {
-  const [books, setBooks] = useState([]);
-
-  async function fetchBooks() {
-    const res = await fetch("/api/books");
-    res.json()
-      .then(res => setBooks(res))
-      .catch(err => console.error(err));
-  }
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+const Books = ({ books }) => {
 
   function bookUI(book) {
     const { id, title, thumbnail_url, price, stock, product_description, upc } = book;
@@ -50,6 +39,25 @@ const Books = () => {
       </table>
     </div>
   )
+};
+
+Books.propTypes = {
+  books: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      category_id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      thumbnail_url: PropTypes.string.isRequired,
+      price: PropTypes.string.isRequired,
+      stock: PropTypes.bool.isRequired,
+      product_description: PropTypes.string.isRequired,
+      upc: PropTypes.string.isRequired
+    }).isRequired
+  )
+};
+
+Books.defaultProps = {
+  books: []
 };
 
 export default Books;
