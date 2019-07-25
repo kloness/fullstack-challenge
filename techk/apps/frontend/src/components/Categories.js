@@ -29,6 +29,9 @@ const Categories = () => {
         <h1 className="subtitle has-text-centered pt-10">Categories</h1>
         <table className="table is-fullwidth is-narrow">
           <tbody>
+          <tr className="is-selected">
+            <td>All</td>
+          </tr>
           {categories.map(categoryUI)}
           </tbody>
         </table>
