@@ -5,11 +5,12 @@ import PropTypes from "prop-types";
 const Books = ({ books }) => {
 
   function bookUI(book) {
-    const { id, title, thumbnail_url, price, stock, product_description, upc } = book;
+    const { id, title, category, thumbnail_url, price, stock, product_description, upc } = book;
     return (
       <tr key={id}>
         <td><img src={thumbnail_url} alt="book thumbnail"/></td>
         <td>{title}</td>
+        <td>{category}</td>
         <td>{price}</td>
         <td>{stock ? 'Yes' : 'No'}</td>
         <td>{upc}</td>
@@ -27,6 +28,7 @@ const Books = ({ books }) => {
         <tr>
           <th>Thumbnail</th>
           <th>Title</th>
+          <th>Category</th>
           <th>Price</th>
           <th>In stock</th>
           <th>UPC</th>
@@ -45,7 +47,7 @@ Books.propTypes = {
   books: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      category_id: PropTypes.number.isRequired,
+      category: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       thumbnail_url: PropTypes.string.isRequired,
       price: PropTypes.string.isRequired,

@@ -16,8 +16,6 @@ const App = () => {
   }
 
   async function fetchBooks(categoryId=null) {
-    console.log('categoryId:');
-    console.log(categoryId);
     axios.get('/api/books', {
       params: {
         category_id: categoryId
