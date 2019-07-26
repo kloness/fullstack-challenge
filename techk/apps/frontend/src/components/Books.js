@@ -68,7 +68,7 @@ const Books = ({ books, page, setPage, totalPages, setSearchText, deleteBook }) 
   return (
     <div className="column">
       <Search search={search} />
-      <table className="table is-bordered is-striped books-table">
+      <table className="table is-bordered is-striped books-table w-p100">
         <thead>
         <tr>
           <th>Thumbnail</th>
