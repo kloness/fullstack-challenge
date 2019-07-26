@@ -10,9 +10,14 @@ const Search = ({ search }) => {
     setSearchValue(e.target.value);
   };
 
+  const resetInputField = () => {
+    setSearchValue("");
+  };
+
   const callSearchFunction = e => {
     e.preventDefault();
     search(searchValue);
+    resetInputField();
   };
 
   return (

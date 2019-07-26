@@ -49,6 +49,7 @@ const App = () => {
     setCategoryId(categoryId);
     setBooks([]);
     setTotalPages(0);
+    setSearchText('');
     setPage(1);
   }
 
@@ -73,6 +74,11 @@ const App = () => {
     setCategoryId(categoryId);
   }
 
+  function onSearchChange(searchValue) {
+    setPage(1);
+    setSearchText(searchValue);
+  }
+
   return (
     <div className="section">
       <div className="container">
@@ -90,7 +96,7 @@ const App = () => {
             books={books}
             page={page}
             setPage={setPage}
-            setSearchText={setSearchText}
+            setSearchText={onSearchChange}
             totalPages={totalPages}
           />
         </div>
