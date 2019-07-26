@@ -24,6 +24,7 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "axios": "^0.19.0"
+    "axios": "^0.19.0",
+    "bulma-pagination-react": "^0.1.1"
   }
 }

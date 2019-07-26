@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Pagination from 'bulma-pagination-react';
 
 
-const Books = ({ books }) => {
+const Books = ({ books, page, setPage, totalPages }) => {
 
   function bookUI(book) {
     const { id, title, category, thumbnail_url, price, stock, product_description, upc } = book;
@@ -23,7 +24,7 @@ const Books = ({ books }) => {
 
   return (
     <div className="column">
-      <table className="table is-bordered is-striped">
+      <table className="table is-bordered is-striped books-table">
         <thead>
         <tr>
           <th>Thumbnail</th>
@@ -37,8 +38,23 @@ const Books = ({ books }) => {
         </thead>
         <tbody>
         {books.map(bookUI)}
+        {books.length === 0 &&
+        <tr>
+          <td colSpan={7}>
+            No books
+          </td>
+        </tr>
+        }
         </tbody>
       </table>
+
+      {totalPages > 0 &&
+      <Pagination
+        pages={totalPages}
+        currentPage={page}
+        onChange={page => setPage(page)}
+      />
+      }
     </div>
   )
 };
@@ -55,7 +71,10 @@ Books.propTypes = {
       product_description: PropTypes.string.isRequired,
       upc: PropTypes.string.isRequired
     }).isRequired
-  )
+  ),
+  page: PropTypes.number.isRequired,
+  setPage: PropTypes.func.isRequired,
+  totalPages: PropTypes.number.isRequired
 };
 
 export default Books;

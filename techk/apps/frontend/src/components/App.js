@@ -6,8 +6,14 @@ import axios from 'axios';
 
 
 const App = () => {
+  // App holds the state of the app and gives props to child components
   const [categories, setCategories] = useState([]);
+  const [categoryId, setCategoryId] = useState(null);
   const [books, setBooks] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [scrapingIsLoading, setScrapingIsLoading] = useState(false);
+  const booksPerPage = 4;
 
   async function fetchCategories() {
     axios.get('/api/categories')
@@ -15,32 +21,53 @@ const App = () => {
       .catch(err => console.error(err));
   }
 
-  async function fetchBooks(categoryId=null) {
+  async function fetchBooks(reset=false) {
+    if (scrapingIsLoading) return;  // don't reload books before scraping finishes
+    const start = reset ? 0 : (page - 1) * booksPerPage;
+    const categoryIdValue = reset ? null : categoryId;
     axios.get('/api/books', {
       params: {
-        category_id: categoryId
+        category_id: categoryIdValue,
+        start: start,
+        length: booksPerPage
       }
     })
-      .then(res => setBooks(res.data))
+      .then(res => {
+        const { total_pages, books } = res.data;
+        setTotalPages(total_pages);
+        setBooks(books);
+      })
       .catch(err => console.error(err));
   }
 
   function resetData() {
+    setScrapingIsLoading(true);
     setCategories([]);
+    setCategoryId(categoryId);
     setBooks([]);
+    setTotalPages(0);
+    setPage(1);
   }
 
   function fetchAllData() {
+    setScrapingIsLoading(false);
     fetchCategories();
-    fetchBooks();
+    fetchBooks(true);
   }
 
   useEffect(() => {
-    fetchAllData();
+    // when page loads, call fetchCategories
+    fetchCategories();
   }, []);
 
+  useEffect(() => {
+    // if categoryId or page changes, call fetchBooks
+    fetchBooks();
+  }, [categoryId, page]);
+
   function onCategoryChange(categoryId) {
-    fetchBooks(categoryId);
+    setPage(1);
+    setCategoryId(categoryId);
   }
 
   return (
@@ -51,8 +78,17 @@ const App = () => {
           afterScraping={fetchAllData}
         />
         <div className="columns is-desktop">
-          <Categories categories={categories} onCategoryChange={onCategoryChange} />
-          <Books books={books} />
+          <Categories
+            categories={categories}
+            categoryId={categoryId}
+            onCategoryChange={onCategoryChange}
+          />
+          <Books
+            books={books}
+            page={page}
+            setPage={setPage}
+            totalPages={totalPages}
+          />
         </div>
       </div>
     </div>

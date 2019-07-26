@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 
-const Categories = ({ categories, onCategoryChange }) => {
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+const Categories = ({ categories, categoryId, onCategoryChange }) => {
 
   function categoryClick(categoryId) {
-    setSelectedCategoryId(categoryId);
     onCategoryChange(categoryId);
   }
 
@@ -16,7 +14,7 @@ const Categories = ({ categories, onCategoryChange }) => {
   }
 
   function categoryUI(category) {
-    const isSelectedClass = (category.id === selectedCategoryId) ? 'is-selected' : '';
+    const isSelectedClass = (category.id === categoryId) ? 'is-selected' : '';
     return (
       <tr key={category.id} className={isSelectedClass}>
         <td onClick={() => categoryClick(category.id)}>{category.name}</td>
@@ -30,9 +28,11 @@ const Categories = ({ categories, onCategoryChange }) => {
         <h1 className="subtitle has-text-centered pt-10">Categories</h1>
         <table className="table is-fullwidth is-narrow is-hoverable">
           <tbody>
-          <tr className={selectedCategoryId === null ? "is-selected" : ""}>
+          {categories.length > 0 &&
+          <tr className={categoryId === null ? "is-selected" : ""}>
             <td onClick={resetSelectedCategoryId}>All</td>
           </tr>
+          }
           {categories.map(categoryUI)}
           </tbody>
         </table>
@@ -48,6 +48,7 @@ Categories.propTypes = {
       name: PropTypes.string.isRequired
     }).isRequired
   ),
+  categoryId: PropTypes.number,
   onCategoryChange: PropTypes.func.isRequired
 };
 
