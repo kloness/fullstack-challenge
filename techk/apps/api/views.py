@@ -1,3 +1,5 @@
+import math
+
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework import status
@@ -26,10 +28,10 @@ class Categories(ListAPIView):
         return models.Category.objects.all()
 
 
-class Books(ListAPIView):
-    serializer_class = serializers.Book
+class Books(APIView):
+    queryset = models.Book.objects.none()  # Required for DjangoModelPermissions
 
-    def get_queryset(self):
+    def get(self, request):
         queryset = models.Book.objects.all()
         # filter by category
         category_id = self.request.query_params.get('category_id', None)
@@ -38,9 +40,19 @@ class Books(ListAPIView):
         # pagination
         start = self.request.query_params.get('start', None)
         length = self.request.query_params.get('length', None)
+        total_pages = 1
         if start is not None and length is not None:
             start = int(start)
             length = int(length)
-            queryset = queryset[start:start+length]
-
-        return queryset
+            if length < 1:
+                length = 1
+            total_pages = math.ceil(queryset.count() / length)
+            queryset = queryset[start:start + length]
+        # get books
+        books = serializers.Book(queryset, many=True).data
+        # response
+        data = {
+            'total_pages': total_pages,
+            'books': books
+        }
+        return Response(data)
