@@ -85,7 +85,7 @@ const Books = ({ books, page, setPage, totalPages, setSearchText, deleteBook }) 
         {books.map(bookUI)}
         {books.length === 0 &&
         <tr>
-          <td colSpan={7}>
+          <td colSpan={8}>
             No books
           </td>
         </tr>
