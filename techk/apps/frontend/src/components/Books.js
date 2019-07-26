@@ -39,7 +39,7 @@ const Search = ({ search }) => {
 };
 
 
-const Books = ({ books, page, setPage, totalPages, setSearchText }) => {
+const Books = ({ books, page, setPage, totalPages, setSearchText, deleteBook }) => {
 
   function bookUI(book) {
     const { id, title, category, thumbnail_url, price, stock, product_description, upc } = book;
@@ -53,6 +53,9 @@ const Books = ({ books, page, setPage, totalPages, setSearchText }) => {
         <td>{upc}</td>
         <td>
           <textarea className="textarea" readOnly cols="100" rows="3" value={product_description} />
+        </td>
+        <td>
+          <a className="button is-danger" onClick={() => deleteBook(book.id)}>X</a>
         </td>
       </tr>
     );
@@ -75,6 +78,7 @@ const Books = ({ books, page, setPage, totalPages, setSearchText }) => {
           <th>In stock</th>
           <th>UPC</th>
           <th>Description</th>
+          <th> </th>
         </tr>
         </thead>
         <tbody>
@@ -115,7 +119,9 @@ Books.propTypes = {
   ),
   page: PropTypes.number.isRequired,
   setPage: PropTypes.func.isRequired,
-  totalPages: PropTypes.number.isRequired
+  totalPages: PropTypes.number.isRequired,
+  setSearchText: PropTypes.func.isRequired,
+  deleteBook: PropTypes.func.isRequired
 };
 
 export default Books;

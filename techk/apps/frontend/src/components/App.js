@@ -43,6 +43,12 @@ const App = () => {
       .catch(err => console.error(err));
   }
 
+  async function deleteBook(bookId) {
+    axios.delete(`api/book/${bookId}`)
+      .then(() => fetchBooks())
+      .catch(err => console.error(err));
+  }
+
   function resetData() {
     setScrapingIsLoading(true);
     setCategories([]);
@@ -98,6 +104,7 @@ const App = () => {
             setPage={setPage}
             setSearchText={onSearchChange}
             totalPages={totalPages}
+            deleteBook={deleteBook}
           />
         </div>
       </div>

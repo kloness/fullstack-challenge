@@ -1,10 +1,12 @@
 import math
 
 from django.db.models import Q
-from rest_framework.generics import ListAPIView
-from rest_framework.views import APIView
+from django.http import Http404
 from rest_framework import status
+from rest_framework.decorators import permission_classes, authentication_classes
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from apps.api import serializers
 from apps.base import models
@@ -77,3 +79,20 @@ class Books(ListAPIView):
             'books': books
         }
         return Response(data)
+
+
+@authentication_classes([])
+@permission_classes([])
+class Book(APIView):
+    # without authentication to quickly test without logging in, csrf, etc
+
+    def get_object(self, pk):
+        try:
+            return models.Book.objects.get(pk=pk)
+        except models.Book.DoesNotExist:
+            raise Http404
+
+    def delete(self, request, book_id):
+        book = self.get_object(book_id)
+        book.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

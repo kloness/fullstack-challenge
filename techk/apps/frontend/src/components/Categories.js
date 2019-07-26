@@ -23,7 +23,7 @@ const Categories = ({ categories, categoryId, onCategoryChange }) => {
   }
 
   return (
-    <div className="column is-3-desktop">
+    <div className="column is-2-desktop">
       <div className="category-column">
         <h1 className="subtitle has-text-centered pt-10">Categories</h1>
         <table className="table is-fullwidth is-narrow is-hoverable">
