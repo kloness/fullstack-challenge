@@ -31,7 +31,16 @@ class Books(ListAPIView):
 
     def get_queryset(self):
         queryset = models.Book.objects.all()
+        # filter by category
         category_id = self.request.query_params.get('category_id', None)
         if category_id is not None:
             queryset = queryset.filter(category=category_id)
-        return queryset[:10]
+        # pagination
+        start = self.request.query_params.get('start', None)
+        length = self.request.query_params.get('length', None)
+        if start is not None and length is not None:
+            start = int(start)
+            length = int(length)
+            queryset = queryset[start:start+length]
+
+        return queryset
