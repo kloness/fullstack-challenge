@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Pagination from 'bulma-pagination-react';
 
 
-const Books = ({ books, page, setPage, totalPages }) => {
+const Search = ({ search }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearchInputChanges = e => {
+    setSearchValue(e.target.value);
+  };
+
+  const callSearchFunction = e => {
+    e.preventDefault();
+    search(searchValue);
+  };
+
+  return (
+    <form className="float-right w-300 mb-10 display-flex">
+      <input
+        type="text"
+        value={searchValue}
+        onChange={handleSearchInputChanges}
+        className="input is-rounded"
+      />
+      <input
+        type="submit"
+        value="Search"
+        onClick={callSearchFunction}
+        className="button is-rounded"
+      />
+    </form>
+  );
+};
+
+
+const Books = ({ books, page, setPage, totalPages, setSearchText }) => {
 
   function bookUI(book) {
     const { id, title, category, thumbnail_url, price, stock, product_description, upc } = book;
@@ -22,8 +53,13 @@ const Books = ({ books, page, setPage, totalPages }) => {
     );
   }
 
+  function search(searchValue) {
+    setSearchText(searchValue);
+  }
+
   return (
     <div className="column">
+      <Search search={search} />
       <table className="table is-bordered is-striped books-table">
         <thead>
         <tr>

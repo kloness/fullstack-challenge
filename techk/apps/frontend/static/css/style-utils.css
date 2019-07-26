@@ -15,6 +15,14 @@
 .vertical-align-bottom {
   vertical-align: bottom; }
 
+.float-right {
+  float: right;
+}
+
+.display-flex {
+  display: flex;
+}
+
 .inline {
   display: inline !important; }
 

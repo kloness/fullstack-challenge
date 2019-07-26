@@ -13,6 +13,7 @@ const App = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [scrapingIsLoading, setScrapingIsLoading] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const booksPerPage = 4;
 
   async function fetchCategories() {
@@ -25,11 +26,13 @@ const App = () => {
     if (scrapingIsLoading) return;  // don't reload books before scraping finishes
     const start = reset ? 0 : (page - 1) * booksPerPage;
     const categoryIdValue = reset ? null : categoryId;
+    const searchValue = reset ? '' : searchText;
     axios.get('/api/books', {
       params: {
         category_id: categoryIdValue,
         start: start,
-        length: booksPerPage
+        length: booksPerPage,
+        search: searchValue
       }
     })
       .then(res => {
@@ -61,9 +64,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // if categoryId or page changes, call fetchBooks
+    // if categoryId, page or searchText changes, call fetchBooks
     fetchBooks();
-  }, [categoryId, page]);
+  }, [categoryId, page, searchText]);
 
   function onCategoryChange(categoryId) {
     setPage(1);
@@ -87,6 +90,7 @@ const App = () => {
             books={books}
             page={page}
             setPage={setPage}
+            setSearchText={setSearchText}
             totalPages={totalPages}
           />
         </div>
